@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0d5b45"><meta name="description" content="دليل صيدليات المناوبة في الدانا - إدلب">
+<link rel="manifest" href="/manifest.webmanifest"><link rel="icon" href="/icons/pharmacy.svg" type="image/svg+xml">
+<title>صيدليات المناوبة | الدانا</title>
+<style>
+:root{--green:#0d5b45;--green2:#168264;--gold:#d6b66b;--bg:#f3f7f5;--ink:#18342c;--muted:#718078}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Tahoma,Arial,sans-serif;color:var(--ink)}
+header{background:linear-gradient(135deg,#073e31,#14765a);color:white;padding:26px 18px 30px;border-radius:0 0 26px 26px;box-shadow:0 8px 24px #0b4b3b22}
+.top{max-width:850px;margin:auto}.brand{display:flex;align-items:center;gap:12px}.brand img{width:52px;height:52px}.brand h1{font-size:22px;margin:0}.brand p{margin:5px 0 0;color:#d9e9e2;font-size:13px}
+.search{max-width:850px;margin:22px auto 0;display:flex;gap:8px}.search input{flex:1;min-width:0;border:0;border-radius:13px;padding:14px;font-size:15px;outline:none}.search button{border:0;border-radius:13px;padding:0 18px;background:var(--gold);color:#26382e;font-weight:bold}
+main{max-width:850px;margin:22px auto;padding:0 14px}.intro{display:flex;justify-content:space-between;align-items:center;gap:12px}.intro h2{font-size:19px;margin:0}.count{font-size:12px;color:var(--muted)}
+.filters{display:flex;gap:8px;overflow:auto;padding:15px 0}.filters button{white-space:nowrap;border:1px solid #dce7e1;background:white;color:var(--green);border-radius:20px;padding:9px 15px}.filters button.active{background:var(--green);color:white}
+#list{display:grid;gap:12px}.pharmacy{background:white;border:1px solid #e4ece7;border-radius:17px;padding:15px;display:flex;gap:13px;align-items:center;box-shadow:0 3px 12px #163d2a08}.pharmacy .symbol{width:48px;height:48px;flex:none;border-radius:14px;background:#e8f4ef;display:grid;place-items:center;font-size:23px}.details{flex:1;min-width:0}.details h3{margin:0 0 6px;font-size:16px}.details p{margin:3px 0;color:var(--muted);font-size:13px}.status{display:inline-block;margin-top:5px;padding:5px 9px;border-radius:20px;font-size:11px;background:#e8f4ef;color:#0c7251}.status.closed{background:#f1f2f1;color:#737d78}.empty{text-align:center;background:white;border-radius:16px;padding:28px;color:var(--muted)}
+footer{text-align:center;padding:25px 12px;color:#84928b;font-size:11px}
+@media(min-width:650px){#list{grid-template-columns:1fr 1fr}}
+</style></head>
+<body>
+<header><div class="top"><div class="brand"><img src="/icons/pharmacy.svg" alt=""><div><h1>صيدليات المناوبة</h1><p>دليلك للوصول إلى الصيدليات في الدانا</p></div></div>
+<div class="search"><input id="search" placeholder="ابحث عن صيدلية أو منطقة..." aria-label="بحث"><button id="searchBtn">بحث</button></div></div></header>
+<main><div class="intro"><h2>الصيدليات</h2><span class="count" id="count">جارٍ تحميل البيانات…</span></div>
+<div class="filters"><button class="active" data-filter="all">الكل</button><button data-filter="on_duty">مناوبة الآن</button><button data-filter="open">مفتوحة</button></div>
+<section id="list"><div class="empty">يتم تحميل الصيدليات…</div></section></main>
+<footer>تم التطوير والبرمجة بواسطة عامر مندو</footer>
+<script type="module">
+const SUPABASE_URL="https://okffadfszrsbxhtevsln.supabase.co";
+const SUPABASE_KEY="sb_publishable_9dIG9P1q4ns-Kt4axjD5sw_Bu4bJ9LX";
+const list=document.querySelector("#list"),search=document.querySelector("#search"),count=document.querySelector("#count");
+let pharmacies=[],filter="all";
+const pick=(o,keys)=>{for(const k of keys)if(o?.[k]!=null&&o[k]!=="")return o[k];return ""};
+function render(){const q=search.value.trim().toLowerCase();let rows=pharmacies.filter(p=>{const name=pick(p,["name","pharmacy_name","title"]);const area=pick(p,["area_name","area","address","location"]);const s=String(p.status||"").toLowerCase();const duty=Boolean(p.is_on_duty)||s.includes("duty")||s.includes("مناوب");const open=Boolean(p.is_open)||s.includes("open")||s.includes("مفتوح");return (!q||String(name+" "+area).toLowerCase().includes(q))&&(filter==="all"||(filter==="on_duty"&&duty)||(filter==="open"&&open));});
+rows.sort((a,b)=>Number(Boolean(b.is_on_duty))-Number(Boolean(a.is_on_duty)));
+count.textContent=rows.length+" صيدلية";
+list.innerHTML=rows.length?rows.map(p=>{const name=pick(p,["name","pharmacy_name","title"])||"صيدلية";const address=pick(p,["address","area_name","area","location"])||"العنوان غير محدد";const phone=pick(p,["phone","contact_phone","mobile"]);const status=String(p.status||"").toLowerCase();const duty=Boolean(p.is_on_duty)||status.includes("duty")||status.includes("مناوب");const open=Boolean(p.is_open)||status.includes("open")||status.includes("مفتوح");return '<article class="pharmacy"><div class="symbol">⚕</div><div class="details"><h3>'+escapeHtml(name)+'</h3><p>📍 '+escapeHtml(address)+'</p>'+(phone?'<p>☎ '+escapeHtml(phone)+'</p>':'')+'<span class="status '+(!open&&!duty?'closed':'')+'">'+(duty?'مناوبة الآن':open?'مفتوحة':'الحالة غير محددة')+'</span></div></article>'}).join(""):'<div class="empty">لا توجد صيدليات مطابقة حالياً</div>';}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+async function load(){try{const r=await fetch(SUPABASE_URL+"/rest/v1/public_pharmacies?select=*",{headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY}});if(!r.ok)throw new Error("تعذر جلب البيانات ("+r.status+")");pharmacies=await r.json();render()}catch(e){count.textContent="تعذر تحميل البيانات";list.innerHTML='<div class="empty">لم نتمكن من تحميل الصيدليات حالياً. '+escapeHtml(e.message)+'</div>';}}
+document.querySelectorAll(".filters button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".filters button").forEach(x=>x.classList.remove("active"));b.classList.add("active");filter=b.dataset.filter;render()}));search.addEventListener("input",render);document.querySelector("#searchBtn").addEventListener("click",render);
+if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(console.error));
+load();
+</script></body></html>
