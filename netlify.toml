@@ -1,0 +1,1 @@
+[build]\n  publish = \".\"\n\n[[headers]]\n  for = \"/sw.js\"\n  [headers.values]\n    Cache-Control = \"no-cache\"\n\n[[headers]]\n  for = \"/manifest.webmanifest\"\n  [headers.values]\n    Content-Type = \"application/manifest+json\"\n
