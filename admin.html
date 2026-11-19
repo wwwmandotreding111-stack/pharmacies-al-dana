@@ -48,7 +48,7 @@ body.auth-locked>header,body.auth-locked>main,body.auth-locked>.bottom{display:n
 </section>
 <header><div class="wrap head"><div class="brand"><div class="logo">✚</div><div><h1>لوحة إدارة صيدليات المناوبة</h1><p>إدارة الدليل والإعلانات والصيدليات</p></div></div><button id="adminLogout" type="button">تسجيل الخروج</button></div></header>
 <main>
-<div class="welcome"><div><h2 id="pageTitle">مرحباً بك في لوحة الإدارة</h2><p>من هون بتدير محتوى دليل صيدليات الدانا</p></div><span class="demo">معاينة أولية</span></div>
+<div class="welcome"><div><h2 id="pageTitle">مرحباً بك في لوحة الإدارة</h2><p>من هون بتدير محتوى دليل صيدليات الدانا</p></div><span class="demo">إدارة مباشرة</span></div>
 <section class="page active" id="home">
 <div class="stats">
 <div class="stat"><small>إجمالي الصيدليات</small><strong>—</strong><em>من قاعدة البيانات</em></div>
@@ -64,11 +64,11 @@ body.auth-locked>header,body.auth-locked>main,body.auth-locked>.bottom{display:n
 </div></div>
 <div class="panel"><div class="panel-head"><h3>آخر النشاطات</h3><small>ستظهر بعد ربط لوحة الإدارة</small></div><div class="list"><div class="item"><div><b>إضافة صيدلية جديدة</b><small>سجل النشاط سيظهر هنا</small></div><span class="pill wait">بانتظار الربط</span></div><div class="item"><div><b>تحديث إعلان</b><small>سجل النشاط سيظهر هنا</small></div><span class="pill wait">بانتظار الربط</span></div></div></div>
 </section>
-<section class="page" id="pharmacies"><div class="panel"><div class="panel-head"><h3>إدارة الصيدليات</h3><button class="primary" type="button" onclick="demoMessage()">＋ إضافة صيدلية</button></div><div class="list"><div class="item"><div><b>بيانات الصيدلية</b><small>الاسم، الصورة، اسم الصيدلي، العنوان، الهاتف</small></div><span class="pill">تجهيز</span></div><div class="item"><div><b>حالة الصيدلية</b><small>مفتوحة، مغلقة، مناوبة</small></div><span class="pill">تجهيز</span></div><div class="item"><div><b>الموقع الجغرافي</b><small>تحديد الإحداثيات وعرضها على الخريطة</small></div><span class="pill">تجهيز</span></div></div></div></section>
-<section class="page" id="ads"><div class="panel"><div class="panel-head"><h3>إدارة الإعلانات</h3><button class="primary" type="button" onclick="demoMessage()">＋ إضافة إعلان</button></div><div class="list"><div class="item"><div><b>صورة الإعلان</b><small>رفع صورة الإعلان وتحديد رابطها</small></div><span class="pill">تجهيز</span></div><div class="item"><div><b>مدة العرض</b><small>تاريخ بداية ونهاية الإعلان</small></div><span class="pill">تجهيز</span></div></div></div></section>
+<section class="page" id="pharmacies"><div class="panel"><div class="panel-head"><h3>إدارة الصيدليات</h3><button class="primary" type="button" onclick="demoMessage()">＋ إضافة صيدلية</button></div><form id="pharmacyForm" class="panel" style="display:none"><h3>إضافة صيدلية</h3><input name="name" required placeholder="اسم الصيدلية"><input name="address" required placeholder="العنوان"><input name="pharmacist_name" placeholder="اسم الصيدلي"><input name="phone" placeholder="رقم الهاتف"><input name="image_url" type="url" placeholder="رابط صورة الصيدلية (اختياري)"><select name="status"><option value="open">مفتوحة</option><option value="closed">مغلقة</option><option value="on_duty">مناوبة</option></select><input name="latitude" type="number" step="any" placeholder="خط العرض (اختياري)"><input name="longitude" type="number" step="any" placeholder="خط الطول (اختياري)"><button class="primary" type="submit">حفظ الصيدلية</button><button type="button" onclick="document.getElementById('pharmacyForm').style.display='none'">إلغاء</button><p id="pharmacyMsg"></p></form><div id="pharmacyRows" class="list">جارٍ تحميل الصيدليات...</div></div></section>
+<section class="page" id="ads"><div class="panel"><div class="panel-head"><h3>إدارة الإعلانات</h3><button class="primary" type="button" onclick="demoMessage()">＋ إضافة إعلان</button></div><form id="adForm" class="panel" style="display:none"><h3>إضافة إعلان</h3><input name="title" required placeholder="عنوان الإعلان"><input name="description" placeholder="وصف الإعلان"><input name="image_url" type="url" placeholder="رابط صورة الإعلان"><input name="target_url" type="url" placeholder="الرابط عند الضغط على الإعلان"><label>بداية العرض</label><input name="starts_at" type="datetime-local"><label>نهاية العرض</label><input name="ends_at" type="datetime-local"><button class="primary" type="submit">حفظ الإعلان</button><button type="button" onclick="document.getElementById('adForm').style.display='none'">إلغاء</button><p id="adMsg"></p></form><div id="adRows" class="list">جارٍ تحميل الإعلانات...</div></div></section>
 <section class="page" id="accounts"><div class="panel"><div class="panel-head"><h3>حسابات أصحاب الصيدليات</h3></div><div class="notice">كل صاحب صيدلية يحصل على دخول خاص، ويُسمح له بتعديل صيدليته المرتبطة بحسابه فقط. المشرف وحده يستطيع إدارة جميع الصيدليات والإعلانات.</div><div class="list" style="margin-top:12px"><div class="item"><div><b>ربط حساب بصيدلية</b><small>سيتم إعداد الدخول والصلاحيات الآمنة</small></div><span class="pill wait">غير مفعّل</span></div></div></div></section>
 <section class="page" id="settings"><div class="panel"><div class="panel-head"><h3>إعدادات التطبيق</h3></div><div class="list"><div class="item"><div><b>المناطق</b><small>الدانا والمناطق التي ستضاف لاحقاً</small></div><span class="pill">تجهيز</span></div><div class="item"><div><b>معلومات التطبيق</b><small>اسم الدليل وبيانات التواصل</small></div><span class="pill">تجهيز</span></div></div></div></section>
-<div class="notice">هذه معاينة لشكل لوحة الإدارة فقط. لم يتم تفعيل الحفظ أو التعديل بعد؛ سنربطها بتسجيل دخول وصلاحيات آمنة قبل إدخال بيانات حقيقية.</div>
+
 </main>
 <nav class="bottom">
 <button class="active" data-page="home"><span>⌂</span>الرئيسية</button>
@@ -82,7 +82,7 @@ const titles={home:"مرحباً بك في لوحة الإدارة",pharmacies:"
 function go(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===id));document.querySelector("#pageTitle").textContent=titles[id]||titles.home;window.scrollTo({top:0,behavior:"smooth"});}
 document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
-function demoMessage(){alert("هذه معاينة فقط. سنفعّل الإضافة والحفظ بعد تجهيز تسجيل الدخول والصلاحيات الآمنة.");}
+function demoMessage(){const page=document.querySelector(".page.active");if(page&&page.id==="pharmacies")document.getElementById("pharmacyForm").style.display="grid";if(page&&page.id==="ads")document.getElementById("adForm").style.display="grid";}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -122,4 +122,16 @@ function demoMessage(){alert("هذه معاينة فقط. سنفعّل الإض�
  verifyAdmin();
 })();
 </script>
-\n</body></html>
+\n
+<script>
+(function(){
+const db=window.supabase.createClient("https://okffadfszrsbxhtevsln.supabase.co","sb_publishable_9dIG9P1q4ns-Kt4axjD5sw_Bu4bJ9LX");
+const areaId="22873743-d4c0-436c-9101-6d87fda7ee27";
+const esc2=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+async function auth(){const {data:{user}}=await db.auth.getUser();if(!user)throw new Error("انتهت الجلسة، سجّل الدخول مجدداً");const {data:p,error}=await db.from("profiles").select("role").eq("user_id",user.id).maybeSingle();if(error||!p||p.role!=="admin")throw new Error("الحساب لا يملك صلاحية المدير");}
+async function refresh(){try{await auth();const [p,a]=await Promise.all([db.from("pharmacies").select("id,name,address,status,is_active").order("created_at",{ascending:false}),db.from("advertisements").select("id,title,is_active").order("created_at",{ascending:false})]);document.getElementById("pharmacyRows").innerHTML=p.error?esc2(p.error.message):(p.data||[]).map(x=>'<div class="item"><div><b>'+esc2(x.name)+'</b><small>'+esc2(x.address||"")+'</small></div><span class="pill">'+esc2(x.status||"")+'</span></div>').join("")||'<div class="item">لا توجد صيدليات بعد</div>';document.getElementById("adRows").innerHTML=a.error?esc2(a.error.message):(a.data||[]).map(x=>'<div class="item"><b>'+esc2(x.title)+'</b><span class="pill">'+(x.is_active?"نشط":"متوقف")+'</span></div>').join("")||'<div class="item">لا توجد إعلانات بعد</div>';}catch(e){document.getElementById("pharmacyRows").textContent=e.message;document.getElementById("adRows").textContent=e.message;}}
+document.getElementById("pharmacyForm").addEventListener("submit",async e=>{e.preventDefault();const f=e.currentTarget,d=Object.fromEntries(new FormData(f)),m=document.getElementById("pharmacyMsg");m.textContent="جارٍ الحفظ...";try{await auth();const row={name:d.name,address:d.address,pharmacist_name:d.pharmacist_name||null,phone:d.phone||null,image_url:d.image_url||null,status:d.status,area_id:areaId,is_active:true,latitude:d.latitude?Number(d.latitude):null,longitude:d.longitude?Number(d.longitude):null};const {error}=await db.from("pharmacies").insert(row);if(error)throw error;m.textContent="تم حفظ الصيدلية بنجاح";f.reset();await refresh();}catch(err){m.textContent="تعذّر الحفظ: "+err.message;}});
+document.getElementById("adForm").addEventListener("submit",async e=>{e.preventDefault();const f=e.currentTarget,d=Object.fromEntries(new FormData(f)),m=document.getElementById("adMsg");m.textContent="جارٍ الحفظ...";try{await auth();const row={title:d.title,description:d.description||null,image_url:d.image_url||null,target_url:d.target_url||null,starts_at:d.starts_at?new Date(d.starts_at).toISOString():new Date().toISOString(),ends_at:d.ends_at?new Date(d.ends_at).toISOString():null,is_active:true};const {error}=await db.from("advertisements").insert(row);if(error)throw error;m.textContent="تم حفظ الإعلان بنجاح";f.reset();await refresh();}catch(err){m.textContent="تعذّر الحفظ: "+err.message;}});
+refresh();
+})();
+</script></body></html>
