@@ -15,9 +15,38 @@ main{max-width:980px;margin:20px auto;padding:0 14px 90px}.welcome{display:flex;
 .bottom{position:fixed;bottom:0;left:0;right:0;background:#111d36;border-top:1px solid #d9b66b55;display:flex;justify-content:space-around;padding:9px 5px calc(9px + env(safe-area-inset-bottom));z-index:5}.bottom button{border:0;background:transparent;color:#aeb8ca;font-size:10px;display:grid;gap:5px;justify-items:center}.bottom button span{font-size:18px}.bottom button.active{color:var(--g2)}
 .page{display:none}.page.active{display:block}.notice{font-size:11px;line-height:1.8;color:#80652f;background:#fff7e6;border:1px solid #f0dfb8;padding:12px;border-radius:13px;margin-top:14px}
 @media(min-width:650px){.stats{grid-template-columns:repeat(4,1fr)}.actions{grid-template-columns:repeat(4,1fr)}main{padding-left:20px;padding-right:20px}}
-</style></head>
-<body>
-<header><div class="wrap head"><div class="brand"><div class="logo">✚</div><div><h1>لوحة إدارة صيدليات المناوبة</h1><p>إدارة الدليل والإعلانات والصيدليات</p></div></div><span class="admin-tag">منطقة الإدارة</span></div></header>
+</style>
+<style>
+body.auth-locked>header,body.auth-locked>main,body.auth-locked>.bottom{display:none!important}
+#adminLogin{min-height:100vh;display:grid;place-items:center;padding:22px;background:linear-gradient(145deg,#0c152b,#1e3153)}
+#adminLogin .login-card{width:min(100%,420px);background:#fff;border:1px solid #d9b66b;border-radius:22px;padding:25px;box-shadow:0 20px 60px #0004}
+#adminLogin h2{margin:0 0 8px;color:#101b35;font-size:21px}
+#adminLogin p{color:#707b8e;font-size:13px;line-height:1.8;margin:0 0 20px}
+#adminLogin label{display:block;font-size:12px;color:#34415a;margin:13px 0 7px}
+#adminLogin input{width:100%;padding:13px;border:1px solid #dfe3eb;border-radius:11px;outline:none}
+#adminLogin input:focus{border-color:#caa65b}
+#adminLogin button{width:100%;padding:13px;border:0;border-radius:11px;background:linear-gradient(135deg,#e9d092,#d1aa59);font-weight:bold;color:#1b2942;margin-top:18px}
+#loginMessage{font-size:12px;color:#a33;margin-top:12px;min-height:18px}
+#adminLogout{border:1px solid #d9b66b66;color:#f0d99e;background:transparent;border-radius:18px;padding:8px 10px;font-size:10px}
+</style>
+<section id="adminLogin" aria-label="تسجيل دخول المدير">
+ <div class="login-card">
+  <div style="font-size:28px;color:#b58d42;margin-bottom:12px">✚</div>
+  <h2>دخول المدير</h2>
+  <p>هذه الصفحة مخصصة لإدارة صيدليات المناوبة. سجّل الدخول بحساب المدير المصرّح فقط.</p>
+  <form id="adminLoginForm">
+   <label for="adminEmail">البريد الإلكتروني</label>
+   <input id="adminEmail" type="email" autocomplete="username" required placeholder="أدخل بريدك الإلكتروني">
+   <label for="adminPassword">كلمة المرور</label>
+   <input id="adminPassword" type="password" autocomplete="current-password" required placeholder="أدخل كلمة المرور">
+   <button id="adminLoginButton" type="submit">تسجيل الدخول</button>
+   <div id="loginMessage" role="status"></div>
+  </form>
+ </div>
+</section>
+\n</head>
+<body class="auth-locked">
+<header><div class="wrap head"><div class="brand"><div class="logo">✚</div><div><h1>لوحة إدارة صيدليات المناوبة</h1><p>إدارة الدليل والإعلانات والصيدليات</p></div></div><button id="adminLogout" type="button">تسجيل الخروج</button></div></header>
 <main>
 <div class="welcome"><div><h2 id="pageTitle">مرحباً بك في لوحة الإدارة</h2><p>من هون بتدير محتوى دليل صيدليات الدانا</p></div><span class="demo">معاينة أولية</span></div>
 <section class="page active" id="home">
@@ -54,4 +83,43 @@ function go(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle
 document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
 function demoMessage(){alert("هذه معاينة فقط. سنفعّل الإضافة والحفظ بعد تجهيز تسجيل الدخول والصلاحيات الآمنة.");}
-</script></body></html>
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+ const SUPABASE_URL="https://okffadfszrsbxhtevsln.supabase.co";
+ const SUPABASE_KEY="sb_publishable_9dIG9P1q4ns-Kt4axjD5Sw_Bu4bJ9LX";
+ const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+ const body=document.body, login=document.getElementById("adminLogin");
+ const form=document.getElementById("adminLoginForm"), msg=document.getElementById("loginMessage");
+ const btn=document.getElementById("adminLoginButton");
+ function showLogin(message){body.classList.add("auth-locked");login.style.display="grid";msg.textContent=message||"";}
+ async function verifyAdmin(){
+   const {data:{user},error}=await client.auth.getUser();
+   if(error||!user){showLogin("");return;}
+   const {data:profile,error:profileError}=await client.from("profiles").select("role").eq("user_id",user.id).maybeSingle();
+   if(profileError||!profile||profile.role!=="admin"){
+     await client.auth.signOut();
+     showLogin("هذا الحساب لا يملك صلاحية المدير.");
+     return;
+   }
+   login.style.display="none";body.classList.remove("auth-locked");
+ }
+ form.addEventListener("submit",async function(e){
+   e.preventDefault();btn.disabled=true;btn.textContent="جارٍ التحقق...";
+   msg.textContent="";
+   const email=document.getElementById("adminEmail").value.trim();
+   const password=document.getElementById("adminPassword").value;
+   const {error}=await client.auth.signInWithPassword({email,password});
+   if(error){msg.textContent="تعذّر تسجيل الدخول. تأكد من البريد وكلمة المرور.";btn.disabled=false;btn.textContent="تسجيل الدخول";return;}
+   await verifyAdmin();
+   btn.disabled=false;btn.textContent="تسجيل الدخول";
+ });
+ document.getElementById("adminLogout").addEventListener("click",async function(){
+   await client.auth.signOut();showLogin("تم تسجيل الخروج.");
+ });
+ client.auth.onAuthStateChange(function(event){if(event==="SIGNED_OUT")showLogin("");});
+ verifyAdmin();
+})();
+</script>
+\n</body></html>
