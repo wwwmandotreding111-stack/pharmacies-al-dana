@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101b35"><title>إدارة صيدليات المناوبة</title>
+<style>
+:root{--n:#101b35;--n2:#1c2c4b;--g:#d9b66b;--g2:#f0d99e;--bg:#f3f4f7;--ink:#1b2740;--muted:#7d8798;--line:#e6e8ee}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Tahoma,Arial,sans-serif;color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer}
+header{background:linear-gradient(140deg,#0c152b,#1e3153);color:white;padding:21px 16px 24px;border-radius:0 0 25px 25px}.wrap{max-width:980px;margin:auto}.head{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{display:flex;align-items:center;gap:11px}.logo{width:48px;height:48px;border:1px solid #d9b66b88;border-radius:15px;display:grid;place-items:center;color:var(--g2);font-size:25px}.brand h1{font-size:18px;margin:0}.brand p{font-size:11px;color:#c3ccdc;margin:5px 0 0}.admin-tag{border:1px solid #d9b66b66;color:var(--g2);border-radius:18px;padding:8px 10px;font-size:10px}
+main{max-width:980px;margin:20px auto;padding:0 14px 90px}.welcome{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:5px 2px 16px}.welcome h2{font-size:18px;margin:0}.welcome p{font-size:11px;color:var(--muted);margin:6px 0 0}.demo{font-size:10px;color:#956b20;background:#fff2d6;border:1px solid #f1dfb5;border-radius:20px;padding:7px 10px;white-space:nowrap}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat{background:#fff;border:1px solid var(--line);border-radius:17px;padding:15px;box-shadow:0 4px 14px #15213a08}.stat small{font-size:11px;color:var(--muted)}.stat strong{display:block;font-size:25px;color:var(--n);margin-top:9px}.stat em{font-style:normal;color:#a17e3d;font-size:10px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:19px;padding:15px;margin-top:16px;box-shadow:0 4px 14px #15213a08}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}.panel h3{font-size:15px;margin:0;color:var(--n)}.panel-head small{font-size:10px;color:var(--muted)}
+.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.tile{border:1px solid #e7e8ed;background:#fff;border-radius:14px;padding:14px 10px;text-align:right;color:var(--n);display:flex;align-items:center;gap:10px}.tile .ico{width:37px;height:37px;border-radius:12px;background:#f5eedf;color:#9b783a;display:grid;place-items:center;font-size:18px;flex:none}.tile b{font-size:12px;display:block}.tile small{font-size:10px;color:var(--muted);display:block;margin-top:4px}
+.primary{border:0;background:linear-gradient(135deg,#e9d092,#d1aa59);color:#1b2942;border-radius:11px;padding:10px 13px;font-size:11px;font-weight:bold}.list{display:grid;gap:9px}.item{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid #eceef2;border-radius:13px;padding:11px}.item b{font-size:12px}.item small{display:block;color:var(--muted);font-size:10px;margin-top:5px}.pill{font-size:10px;border-radius:20px;padding:6px 9px;background:#eaf5ef;color:#277b56;white-space:nowrap}.pill.wait{background:#fff2d8;color:#946d21}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#111d36;border-top:1px solid #d9b66b55;display:flex;justify-content:space-around;padding:9px 5px calc(9px + env(safe-area-inset-bottom));z-index:5}.bottom button{border:0;background:transparent;color:#aeb8ca;font-size:10px;display:grid;gap:5px;justify-items:center}.bottom button span{font-size:18px}.bottom button.active{color:var(--g2)}
+.page{display:none}.page.active{display:block}.notice{font-size:11px;line-height:1.8;color:#80652f;background:#fff7e6;border:1px solid #f0dfb8;padding:12px;border-radius:13px;margin-top:14px}
+@media(min-width:650px){.stats{grid-template-columns:repeat(4,1fr)}.actions{grid-template-columns:repeat(4,1fr)}main{padding-left:20px;padding-right:20px}}
+</style></head>
+<body>
+<header><div class="wrap head"><div class="brand"><div class="logo">✚</div><div><h1>لوحة إدارة صيدليات المناوبة</h1><p>إدارة الدليل والإعلانات والصيدليات</p></div></div><span class="admin-tag">منطقة الإدارة</span></div></header>
+<main>
+<div class="welcome"><div><h2 id="pageTitle">مرحباً بك في لوحة الإدارة</h2><p>من هون بتدير محتوى دليل صيدليات الدانا</p></div><span class="demo">معاينة أولية</span></div>
+<section class="page active" id="home">
+<div class="stats">
+<div class="stat"><small>إجمالي الصيدليات</small><strong>—</strong><em>من قاعدة البيانات</em></div>
+<div class="stat"><small>صيدليات مفتوحة</small><strong>—</strong><em>حسب الحالة</em></div>
+<div class="stat"><small>صيدليات مناوبة</small><strong>—</strong><em>حسب جدول المناوبة</em></div>
+<div class="stat"><small>الإعلانات النشطة</small><strong>—</strong><em>إعلانات ظاهرة للزوار</em></div>
+</div>
+<div class="panel"><div class="panel-head"><h3>اختصارات الإدارة</h3><small>اختر القسم الذي تريد العمل عليه</small></div><div class="actions">
+<button class="tile" data-go="pharmacies"><span class="ico">✚</span><span><b>إدارة الصيدليات</b><small>إضافة وتعديل البيانات</small></span></button>
+<button class="tile" data-go="ads"><span class="ico">▣</span><span><b>إدارة الإعلانات</b><small>صور وروابط ومدة العرض</small></span></button>
+<button class="tile" data-go="accounts"><span class="ico">♙</span><span><b>حسابات الصيدليات</b><small>تحديد صلاحيات أصحابها</small></span></button>
+<button class="tile" data-go="settings"><span class="ico">⚙</span><span><b>الإعدادات</b><small>المناطق ومعلومات التطبيق</small></span></button>
+</div></div>
+<div class="panel"><div class="panel-head"><h3>آخر النشاطات</h3><small>ستظهر بعد ربط لوحة الإدارة</small></div><div class="list"><div class="item"><div><b>إضافة صيدلية جديدة</b><small>سجل النشاط سيظهر هنا</small></div><span class="pill wait">بانتظار الربط</span></div><div class="item"><div><b>تحديث إعلان</b><small>سجل النشاط سيظهر هنا</small></div><span class="pill wait">بانتظار الربط</span></div></div></div>
+</section>
+<section class="page" id="pharmacies"><div class="panel"><div class="panel-head"><h3>إدارة الصيدليات</h3><button class="primary" type="button" onclick="demoMessage()">＋ إضافة صيدلية</button></div><div class="list"><div class="item"><div><b>بيانات الصيدلية</b><small>الاسم، الصورة، اسم الصيدلي، العنوان، الهاتف</small></div><span class="pill">تجهيز</span></div><div class="item"><div><b>حالة الصيدلية</b><small>مفتوحة، مغلقة، مناوبة</small></div><span class="pill">تجهيز</span></div><div class="item"><div><b>الموقع الجغرافي</b><small>تحديد الإحداثيات وعرضها على الخريطة</small></div><span class="pill">تجهيز</span></div></div></div></section>
+<section class="page" id="ads"><div class="panel"><div class="panel-head"><h3>إدارة الإعلانات</h3><button class="primary" type="button" onclick="demoMessage()">＋ إضافة إعلان</button></div><div class="list"><div class="item"><div><b>صورة الإعلان</b><small>رفع صورة الإعلان وتحديد رابطها</small></div><span class="pill">تجهيز</span></div><div class="item"><div><b>مدة العرض</b><small>تاريخ بداية ونهاية الإعلان</small></div><span class="pill">تجهيز</span></div></div></div></section>
+<section class="page" id="accounts"><div class="panel"><div class="panel-head"><h3>حسابات أصحاب الصيدليات</h3></div><div class="notice">كل صاحب صيدلية يحصل على دخول خاص، ويُسمح له بتعديل صيدليته المرتبطة بحسابه فقط. المشرف وحده يستطيع إدارة جميع الصيدليات والإعلانات.</div><div class="list" style="margin-top:12px"><div class="item"><div><b>ربط حساب بصيدلية</b><small>سيتم إعداد الدخول والصلاحيات الآمنة</small></div><span class="pill wait">غير مفعّل</span></div></div></div></section>
+<section class="page" id="settings"><div class="panel"><div class="panel-head"><h3>إعدادات التطبيق</h3></div><div class="list"><div class="item"><div><b>المناطق</b><small>الدانا والمناطق التي ستضاف لاحقاً</small></div><span class="pill">تجهيز</span></div><div class="item"><div><b>معلومات التطبيق</b><small>اسم الدليل وبيانات التواصل</small></div><span class="pill">تجهيز</span></div></div></div></section>
+<div class="notice">هذه معاينة لشكل لوحة الإدارة فقط. لم يتم تفعيل الحفظ أو التعديل بعد؛ سنربطها بتسجيل دخول وصلاحيات آمنة قبل إدخال بيانات حقيقية.</div>
+</main>
+<nav class="bottom">
+<button class="active" data-page="home"><span>⌂</span>الرئيسية</button>
+<button data-page="pharmacies"><span>✚</span>الصيدليات</button>
+<button data-page="ads"><span>▣</span>الإعلانات</button>
+<button data-page="accounts"><span>♙</span>الحسابات</button>
+<button data-page="settings"><span>⚙</span>الإعدادات</button>
+</nav>
+<script>
+const titles={home:"مرحباً بك في لوحة الإدارة",pharmacies:"إدارة الصيدليات",ads:"إدارة الإعلانات",accounts:"حسابات الصيدليات",settings:"إعدادات التطبيق"};
+function go(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===id));document.querySelector("#pageTitle").textContent=titles[id]||titles.home;window.scrollTo({top:0,behavior:"smooth"});}
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+function demoMessage(){alert("هذه معاينة فقط. سنفعّل الإضافة والحفظ بعد تجهيز تسجيل الدخول والصلاحيات الآمنة.");}
+</script></body></html>
