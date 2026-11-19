@@ -111,7 +111,7 @@ function demoMessage(){alert("هذه معاينة فقط. سنفعّل الإض�
    const email=document.getElementById("adminEmail").value.trim();
    const password=document.getElementById("adminPassword").value;
    const {error}=await client.auth.signInWithPassword({email,password});
-   if(error){msg.textContent="تعذّر تسجيل الدخول. تأكد من البريد وكلمة المرور.";btn.disabled=false;btn.textContent="تسجيل الدخول";return;}
+   if(error){msg.textContent="خطأ تسجيل الدخول: "+(error.message||"تعذّر التحقق من بيانات الحساب");btn.disabled=false;btn.textContent="تسجيل الدخول";return;}
    await verifyAdmin();
    btn.disabled=false;btn.textContent="تسجيل الدخول";
  });
